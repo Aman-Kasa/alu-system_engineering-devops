@@ -1,21 +1,19 @@
-# This Puppet manifest configures the global SSH client configuration file
+# Using puppet
+# 1. Your SSH client configuration must be configured to use the private key ~/.ssh/school
+# 2. Your SSH client configuration must be configured to refuse to authenticate using a password
 
-file { '/etc/ssh/ssh_config':
-  ensure  => file,
-  owner   => 'root',
-  group   => 'root',
-  mode    => '0644',  # Set file permissions to read/write for owner and read for others
-  content => template('ssh/ssh_config.erb'),  # Using a template for the content
+include stdlib
+
+file_line { 'Refuse auth with password':
+  ensure => present,
+  path    => '/etc/ssh/ssh_config',
+  line    => '    PasswordAuthentication no',
+  replace => true,
 }
 
-file_line { 'Turn off passwd auth':
-  path  => '/etc/ssh/ssh_config',
-  line  => 'PasswordAuthentication no',
-  match => 'PasswordAuthentication yes',  # Only add if it exists
-}
-
-file_line { 'Declare identity file':
-  path  => '/etc/ssh/ssh_config',
-  line  => 'IdentityFile ~/.ssh/school',
-  match => 'IdentityFile',
+file_line { 'specify identity file path':
+  ensure  => present,
+  path    => '/etc/ssh/ssh_config',
+  line    => '     IdentityFile ~/.ssh/school',
+  replace => true,
 }
