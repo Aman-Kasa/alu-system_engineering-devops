@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# Script to configure Nginx to redirect /redirect_me to another URL with a 301 Moved Permanently
+
+# Update package lists and install Nginx if it's not installed
+sudo apt update
+sudo apt install -y nginx
+
+# Add a 301 redirection to the default server configuration
+sudo sed -i '/location \/ {/a\    rewrite ^/redirect_me$ https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;' /etc/nginx/sites-available/default
+
+# Reload Nginx to apply the changes
+sudo systemctl reload nginx
