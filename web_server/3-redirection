@@ -1,12 +1,17 @@
 #!/usr/bin/env bash
-# Script to configure Nginx to redirect /redirect_me to another URL with a 301 Moved Permanently
+# Configuring Nginx server so that /redirect_me is redirecting to another page.
 
-# Update package lists and install Nginx if it's not installed
-sudo apt update
-sudo apt install -y nginx
+sudo apt-get -y update
+sudo apt-get -y install nginx
 
-# Add a 301 redirection to the default server configuration
-sudo sed -i '/location \/ {/a\    rewrite ^/redirect_me$ https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;' /etc/nginx/sites-available/default
+echo "Holberton School" | sudo tee /var/www/html/index.html
 
-# Reload Nginx to apply the changes
-sudo systemctl reload nginx
+# Redirection configuration
+replacement="server_name _;\\
+    location /redirect_me {\\
+        return 301 https://github.com/Maaxboon/;\\
+    }"
+sudo sed -i "s|server_name _;|$replacement|" /etc/nginx/sites-available/default
+
+sudo nginx -t
+sudo service nginx restart
