@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+# This script installs Nginx and configures it to serve a page containing 'Holberton School for the win!'
+
+# Update and install nginx
+apt-get update
+apt-get install -y nginx
+
+# Create a custom HTML file
+echo "Holberton School for the win!" > /var/www/html/index.html
+
+# Ensure Nginx is running on port 80
+service nginx start
+
+# Ensure Nginx is listening on port 80
+nginx -t
