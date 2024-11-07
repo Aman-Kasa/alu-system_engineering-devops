@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+# This script installs Nginx and configures it to return "Holberton School" at the root page.
+
+# Update package list and install Nginx
+apt-get update -y
+apt-get install nginx -y
+
+# Ensure the /var/www/html directory exists
+mkdir -p /var/www/html
+
+# Create a simple HTML page that returns "Holberton School"
+echo "Holberton School" > /var/www/html/index.html
+
+# Restart Nginx using service (since systemctl is not allowed)
+service nginx restart
