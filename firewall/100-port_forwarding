@@ -1,0 +1,5 @@
+sudo nano /etc/ufw/sysctl.conf
+sudo nano /etc/ufw/before.rules
+sudo ufw disable
+sudo ufw enable
+sudo ufw status
