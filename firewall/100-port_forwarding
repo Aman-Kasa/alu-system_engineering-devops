@@ -1,4 +1,5 @@
 # This script configures UFW to forward traffic from port 8080 to port 80 on web-01
+# The configuration is applied to allow incoming requests on port 8080 and redirect them to port 80
 
 # Enable IP forwarding in sysctl.conf
 sudo nano /etc/ufw/sysctl.conf
