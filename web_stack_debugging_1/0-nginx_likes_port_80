@@ -1,19 +1,5 @@
 #!/usr/bin/env bash
+# configures a server to listening on port 80 of all servers active IPv4 IPs
 
-# This script configures Nginx to listen on port 80 and returns an HTTP 200 response.
-
-# Create an Nginx configuration file that listens on port 80
-sudo bash -c "echo 'server {
-    listen 80;
-    server_name localhost;
-
-    location / {
-        return 200 \"OK\";
-    }
-}' > /etc/nginx/sites-available/default"
-
-# Reload Nginx to apply the new configuration
-sudo systemctl reload nginx
-
-# Ensure that Nginx is listening on port 80 and returns a web page with HTTP 200 status
-curl -I localhost:80
+sudo ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
+sudo service nginx restart
