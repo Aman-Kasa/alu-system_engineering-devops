@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
-# Stop and restart Nginx to ensure it's configured properly
-sudo service nginx stop || true
+# Stop Nginx if it is running
+sudo service nginx stop
+
+# Ensure Nginx is not running before starting
+sudo service nginx status || true
+
+# Start Nginx
 sudo service nginx start
