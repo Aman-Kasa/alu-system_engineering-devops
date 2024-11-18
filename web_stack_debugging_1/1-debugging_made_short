@@ -1,10 +1,4 @@
 #!/usr/bin/env bash
-
-# Stop Nginx if it is running
 sudo service nginx stop
-
-# Ensure Nginx is not running before starting
 sudo service nginx status || true
-
-# Start Nginx
 sudo service nginx start
