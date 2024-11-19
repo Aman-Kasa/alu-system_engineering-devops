@@ -3,4 +3,3 @@
 sudo sed -i "s/8080/80/" /etc/nginx/sites-enabled/default
 sudo systemctl stop nginx
 sudo systemctl start nginx
-echo "" | sudo tee /run/nginx.pid > /dev/null
