@@ -1,6 +1,4 @@
 #!/usr/bin/env bash
-# Ensures nginx is running and returns HTTP 200 on port 80
-if service nginx status | grep -q "inactive"; then
-  service nginx start
-fi
+# Ensures Nginx is running and returns HTTP 200 on port 80
+service nginx status >/dev/null 2>&1 || service nginx start
 curl -s -o /dev/null -w "%{http_code}" http://localhost:80
