@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
-# Start Nginx, verify HTTP 200 response, stop Nginx, check if inactive
-
-sudo service nginx start
-curl -s -o /dev/null -w "%{http_code}" http://localhost:80
-sudo service nginx stop
-sleep 1
-sudo service nginx status | grep "inactive"
+# Configures Nginx to listen on port 80 and restart the service
+sudo sed -i "s/8080/80/" /etc/nginx/sites-enabled/default
+sudo systemctl stop nginx
+sudo systemctl start nginx
+echo "" | sudo tee /run/nginx.pid > /dev/null
