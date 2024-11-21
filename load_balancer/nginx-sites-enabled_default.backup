@@ -19,6 +19,7 @@
 # Default server configuration
 #
 server {
+        HEAD
 	listen 80 default_server;
 	listen [::]:80 default_server;
 
@@ -68,6 +69,25 @@ server {
 	#location ~ /\.ht {
 	#	deny all;
 	#}
+
+    listen 80 default_server;
+    listen [::]:80 default_server;
+
+    root /var/www/html;
+    index index.html index.htm index.nginx-debian.html;
+
+    server_name _;
+
+    # Custom 404 error page configuration
+    error_page 404 /custom_404.html;
+    location = /custom_404.html {
+        internal;
+    }
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+        8ecc8a17fb2f2c30ed442ece9a923d5069560d2b
 }
 
 
