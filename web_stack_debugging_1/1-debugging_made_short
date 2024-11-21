@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
-# Configures Nginx to listen on port 80 and restart the service
+# Configures Nginx to listen on port 80 and restarts the service
 sudo sed -i "s/8080/80/" /etc/nginx/sites-enabled/default
 sudo systemctl stop nginx
 sudo systemctl start nginx
 echo "" | sudo tee /run/nginx.pid > /dev/null
+curl -s 0:80
