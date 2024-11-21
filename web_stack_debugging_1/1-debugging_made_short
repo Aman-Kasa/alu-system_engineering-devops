@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
+# Starts Nginx, checks if a web page returns HTTP 200, then stops Nginx
+
 service nginx start
-curl -s http://localhost | grep -q "Welcome"
+curl -s http://localhost | grep -q "HTTP/1.1 200 OK"
 service nginx stop
 service nginx status | grep "inactive"
