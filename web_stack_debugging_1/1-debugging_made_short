@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Ensures nginx is running after being stopped for debugging purposes.
-
-service nginx stop
-service nginx start
+# Checks if Nginx is running, and starts it if not
+if ! service nginx status | grep -q "running"; then
+    service nginx start
+fi
