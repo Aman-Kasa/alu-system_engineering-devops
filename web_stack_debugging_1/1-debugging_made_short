@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
-# Start nginx, check HTTP 200 response, then stop nginx
-
 service nginx start
 curl -s http://localhost | grep -q "Welcome"
 service nginx stop
-service nginx status | grep -q "inactive"
+service nginx status | grep "inactive"
