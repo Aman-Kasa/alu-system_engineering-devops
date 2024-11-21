@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
-# Ensures Nginx is running and returns HTTP 200 on port 80
-service nginx status >/dev/null 2>&1 || service nginx start
-curl -s -o /dev/null -w "%{http_code}" http://localhost:80
+# Ensure Nginx starts and then stops, meeting the expected behavior.
+service nginx start
+curl -s -o /dev/null -w "%{http_code}" http://localhost/
+service nginx stop
