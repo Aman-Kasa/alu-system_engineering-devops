@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-# Ensure Nginx starts and then stops, meeting the expected behavior.
+# Start Nginx, check HTTP 200 response, then stop Nginx.
 service nginx start
 curl -s -o /dev/null -w "%{http_code}" http://localhost/
 service nginx stop
+service nginx status | grep -q "inactive" && echo "Nginx is not running" || echo "Nginx is still running"
