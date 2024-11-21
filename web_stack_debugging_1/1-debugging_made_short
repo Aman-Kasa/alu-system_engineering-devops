@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
-# This script stops Nginx, checks that it's not running, and then restarts it.
+# Ensures nginx is running after being stopped for debugging purposes.
 
-sudo service nginx stop
-service nginx status | grep -q "is not running" && echo "Nginx is stopped"
-sudo service nginx start
+service nginx stop
+service nginx start
