@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Start Nginx, check HTTP 200, stop Nginx, and confirm it's not running
+# Start Nginx, check HTTP 200, stop Nginx, and check its status
 
 service nginx start
 curl -s http://localhost | grep "HTTP/1.1 200 OK"
