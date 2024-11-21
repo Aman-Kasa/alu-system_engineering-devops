@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-# Start nginx, check HTTP 200 response, and stop nginx
+# Start nginx, check for HTTP 200, then stop nginx
 
 service nginx start
-curl -s -o /dev/null -w "%{http_code}" http://localhost/ | grep -q 200
+curl -s -o /dev/null -w "%{http_code}" http://localhost/ | grep 200
 service nginx stop
-service nginx status | grep -q "inactive" && echo "Nginx is not running"
+service nginx status | grep -q "inactive"
