@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Start nginx if it is not running
-if service nginx status | grep -q "not running"; then
-    service nginx start
-fi
+# adv task
+sudo sed -i 's/8080/80/g' /etc/nginx/sites-enabled/default
+sudo service nginx restart
+sudo pkill -9 nginx
