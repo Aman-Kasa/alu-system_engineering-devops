@@ -1,6 +1,3 @@
 #!/usr/bin/env bash
-# Start Nginx temporarily in background, but do not interact with init system
-if ! pgrep -x "nginx" > /dev/null; then
-    nginx
-fi
-
+# Start nginx without using init or service and in the background
+nginx -g "daemon off;" &
