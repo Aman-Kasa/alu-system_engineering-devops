@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Ensures Nginx is running and accessible on port 80
-pgrep -x "nginx" > /dev/null || sudo service nginx start
-http_status=$(curl -s -o /dev/null -w "%{http_code}" http://localhost)
-[ "$http_status" -eq 200 ] && echo "HTTP 200 OK" || echo "Failed HTTP $http_status"
+# Starts nginx if it is not running
+if ! pgrep -x "nginx" > /dev/null; then
+    service nginx start
+fi
