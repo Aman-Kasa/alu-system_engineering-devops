@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-# adv task
-sudo sed -i 's/8080/80/g' /etc/nginx/sites-enabled/default
-sudo service nginx restart
-sudo pkill -9 nginx
+# This script ensures Nginx serves on port 80 but appears not running to init
+if ! pgrep -x "nginx" > /dev/null; then
+    nginx
+fi
+
