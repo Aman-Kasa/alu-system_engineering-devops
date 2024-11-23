@@ -1,6 +1,4 @@
 #!/usr/bin/env bash
-# Ensure nginx is not running and then start nginx
-if service nginx status | grep -q "not running"; then
-    service nginx start
-fi
-
+# Start nginx if not running, then stop it
+service nginx status | grep -q "not running" && service nginx start
+service nginx stop
