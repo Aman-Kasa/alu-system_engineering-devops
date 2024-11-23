@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# This script ensures Nginx serves on port 80 but appears not running to init
+# Start Nginx temporarily in background, but do not interact with init system
 if ! pgrep -x "nginx" > /dev/null; then
     nginx
 fi
