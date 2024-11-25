@@ -1,28 +1,28 @@
 #!/usr/bin/env bash
+
 # This script configures Nginx to run as the nginx user and listen on port 8080.
 
-# Ensure Nginx is installed
-apt-get update
-apt-get install -y nginx
+# Update Nginx configuration to run as the nginx user
+sudo sed -i 's/user  root;/user  nginx;/' /etc/nginx/nginx.conf
 
-# Create nginx user if it doesn't exist
-if ! id -u nginx &>/dev/null; then
-    useradd -r -s /usr/sbin/nologin nginx
+# Update Nginx to listen on all IPs on port 8080
+sudo sed -i 's/listen\s\+80;/listen 8080 default_server;/' /etc/nginx/sites-available/default
+
+# Restart Nginx to apply the changes
+sudo systemctl restart nginx
+
+# Ensure Nginx is running as the nginx user
+if pgrep -u nginx nginx > /dev/null; then
+    echo "Nginx is running as the nginx user."
+else
+    echo "Failed to start Nginx as the nginx user."
+    exit 1
 fi
 
-# Update Nginx configuration
-sed -i 's/^user .*/user nginx;/' /etc/nginx/nginx.conf
-sed -i 's/listen 80 default_server;/listen 8080 default_server;/' /etc/nginx/sites-available/default
-sed -i 's/listen \[::\]:80 default_server;/listen [::]:8080 default_server;/' /etc/nginx/sites-available/default
-
-# Adjust permissions
-chown -R nginx:nginx /var/www/html
-
-# Restart Nginx
-service nginx restart
-
-# Verify Nginx is running as nginx user
-ps aux | grep nginx
-
-# Check if Nginx is listening on port 8080
-nc -z 0 8080 && echo "Nginx is running on port 8080 as nginx user"
+# Ensure Nginx is listening on port 8080
+if nc -z 0 8080; then
+    echo "Nginx is listening on port 8080."
+else
+    echo "Nginx is not listening on port 8080."
+    exit 1
+fi
