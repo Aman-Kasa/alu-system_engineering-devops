@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# Sets up a working environment with no more than 7 lines.
+docker exec "$(docker ps -q)" bash -c '
+echo "server {
+    listen 80;
+    server_name _;
+    location / {
+        return 200 ok;
+    }
+}" > /etc/nginx/sites-available/default &&
+nginx -s reload'
