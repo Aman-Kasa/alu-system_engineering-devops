@@ -1,6 +1,0 @@
-#!/usr/bin/env bash
-# Fixes Nginx to run on port 8080 and ensures it's running as the nginx user
-docker exec "$(docker ps -q)" bash -c '
-sed -i "s/listen 80;/listen 8080;/" /etc/nginx/sites-available/default
-chown -R nginx:nginx /var/lib/nginx
-nginx -s reload'
