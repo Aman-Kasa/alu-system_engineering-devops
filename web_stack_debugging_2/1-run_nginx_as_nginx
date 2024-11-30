@@ -28,8 +28,18 @@ sudo -u nginx /usr/sbin/nginx -g 'daemon off;' &
 # Wait a moment to ensure nginx starts
 sleep 2
 
-# Explicitly show nginx processes
-ps aux | grep nginx
+# Verify nginx is running as nginx user
+if pgrep -u nginx nginx > /dev/null; then
+    echo "Nginx is running as nginx user"
+else
+    echo "Nginx is not running as nginx user"
+    exit 1
+fi
 
-# Verify port listening
-sudo netstat -tulpn | grep nginx
+# Verify nginx is listening on port 8080
+if sudo netstat -tulpn | grep -q ':8080 '; then
+    echo "Nginx is listening on port 8080"
+else
+    echo "Nginx is not listening on port 8080"
+    exit 1
+fi
