@@ -1,29 +1,30 @@
 # Puppet manifest to resolve WordPress 500 Internal Server Error
 
-# Ensure wp-config.php has correct permissions
+# Specific fix for WordPress configuration
+exec { 'fix-wordpress-configuration':
+    command => '/bin/sed -i "s/MyISAM/InnoDB/g" /var/www/html/wp-config.php',
+    path    => ['/bin', '/usr/bin'],
+    onlyif  => '/bin/grep -q "MyISAM" /var/www/html/wp-config.php',
+}
+
 file { '/var/www/html/wp-config.php':
-  ensure => file,
-  mode   => '0644',
-  owner  => 'www-data',
-  group  => 'www-data',
+    ensure  => file,
+    mode    => '0644',
+    owner   => 'www-data',
+    group   => 'www-data',
 }
 
-# Fix WordPress directory permissions
 exec { 'fix-wordpress-permissions':
-  command => '/bin/chmod -R 755 /var/www/html',
-  path    => ['/bin', '/usr/bin'],
+    command => '/bin/chmod -R 755 /var/www/html',
+    path    => ['/bin', '/usr/bin'],
 }
 
-# Ensure PHP MySQL extension is installed
-package { 'php5-mysql':
-  ensure => installed,
-}
-
-# Ensure proper Apache configuration
 service { 'apache2':
-  ensure    => running,
-  enable    => true,
-  subscribe => [
-    File['/var/www/html/wp-config.php'],
-    Exec['fix-wordpress-permissions']
-  ],}
+    ensure    => running,
+    enable    => true,
+    subscribe => [
+        Exec['fix-wordpress-configuration'],
+        File['/var/www/html/wp-config.php'],
+        Exec['fix-wordpress-permissions']
+    ],
+}
