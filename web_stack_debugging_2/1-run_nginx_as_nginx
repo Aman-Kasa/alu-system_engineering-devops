@@ -1,24 +1,35 @@
 #!/usr/bin/env bash
-# Configure Nginx to run as nginx user and listen on port 8080
+# Configure Nginx to run as nginx user on port 8080
+
+# Stop any existing nginx processes
+sudo pkill -f nginx
+
+# Modify nginx configuration
+sudo sed -i 's/user www-data/user nginx/' /etc/nginx/nginx.conf
+sudo sed -i 's/listen 80;/listen 8080;/' /etc/nginx/sites-available/default
 
 # Ensure nginx user exists
-if ! id "nginx" &>/dev/null; then
-    useradd -r -s /bin/false nginx
+if ! id "nginx" &> /dev/null; then
+    sudo useradd -r -s /bin/false nginx
 fi
 
-# Modify nginx configuration to use nginx user
-sed -i 's/user\s*www-data/user nginx/' /etc/nginx/nginx.conf
+# Set correct permissions
+sudo chown -R nginx:nginx /etc/nginx
+sudo chown -R nginx:nginx /var/log/nginx
+sudo chown -R nginx:nginx /var/lib/nginx
+sudo chmod 755 /usr/sbin/nginx
 
-# Modify default site to listen on port 8080
-sed -i 's/listen\s*80;/listen 8080;/' /etc/nginx/sites-available/default
+# Verify configuration
+sudo -u nginx /usr/sbin/nginx -t
 
-# Ensure correct permissions
-chown -R nginx:nginx /etc/nginx
-chown -R nginx:nginx /var/log/nginx
-chown -R nginx:nginx /var/lib/nginx
+# Run nginx as nginx user and output process details
+sudo -u nginx /usr/sbin/nginx -g 'daemon off;' &
 
-# Kill any existing nginx processes
-pkill -f nginx
+# Wait a moment to ensure nginx starts
+sleep 2
 
-# Start nginx as nginx user
-su nginx -c "/usr/sbin/nginx -g 'daemon off;'"
+# Explicitly show nginx processes
+ps aux | grep nginx
+
+# Verify port listening
+sudo netstat -tulpn | grep nginx
