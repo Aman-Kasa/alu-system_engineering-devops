@@ -1,6 +1,8 @@
-#!/bin/bash
-# Starts Nginx and ensures it runs as the 'nginx' user.
-
-sudo systemctl stop nginx
-sudo sed -i 's/^user .*/user nginx;/' /etc/nginx/nginx.conf
-sudo systemctl start nginx
+#!/usr/bin/env bash
+# Fixes server bug
+chmod 644 /etc/nginx/nginx.conf
+sed -Ei 's/\s*#?\s*user .*/user nginx;/' /etc/nginx/nginx.conf
+sed -Ei 's/(listen (\[::\]:)?80) /\180 /' /etc/nginx/sites-enabled/default
+pkill apache2
+# restart
+su nginx -s /bin/bash -c 'service nginx restart'
