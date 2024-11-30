@@ -1,6 +1,21 @@
-#!/usr/bin/env bash
-# Fixes Nginx to run on port 8080 and ensures it's running as the nginx user
-docker exec "$(docker ps -q)" bash -c '
-sed -i "s/listen 80;/listen 8080;/" /etc/nginx/sites-available/default
-chown -R nginx:nginx /var/lib/nginx
-nginx -s reload'
+#!/bin/bash
+
+# Update the Nginx configuration to run as nginx user
+# Edit the /etc/nginx/nginx.conf file to set the user directive to nginx
+sed -i 's/user\s\+root;/user nginx;/' /etc/nginx/nginx.conf
+
+# Update the Nginx configuration to listen on all IPs on port 8080
+# Ensure the listen directive is set to 0.0.0.0:8080 or [::]:8080
+sed -i 's/listen\s\+[^\;]\+;/listen 0.0.0.0:8080;/' /etc/nginx/sites-available/default
+
+# Test Nginx configuration to make sure everything is fine
+nginx -t
+
+# Restart Nginx to apply changes
+systemctl restart nginx
+
+# Check the status of Nginx to verify if it's running under the nginx user
+ps aux | grep nginx
+
+# Check if Nginx is listening on port 8080
+nc -z 0 8080 ; echo $?

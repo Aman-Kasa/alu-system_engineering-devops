@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+# This script installs Nginx web server and sets up an HTML page
+
+# Update package list and install Nginx
+sudo apt-get update
+sudo apt-get install -y nginx
+
+# Start Nginx service
+sudo service nginx start
+
+# Create an HTML page
+sudo mkdir -p /var/www/html
+echo "Holberton School" | sudo tee /var/www/html/index.html > /dev/null
+
+# Set permissions to allow Nginx to serve the page
+sudo chown -R www-data:www-data /var/www/html
+
+# Restart the Nginx service to apply changes
+sudo service nginx restart
