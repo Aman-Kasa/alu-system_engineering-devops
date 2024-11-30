@@ -42,7 +42,7 @@ EOF' ",
 
 # Ensure nginx service is running
 service { 'nginx':
-  ensure   => 'running',
-  enable   => true,
+   ensure   => 'running',
+   enable   => true,
   subscribe => Exec['optimize_nginx'],  # Restart nginx if exec changes its config
 }
