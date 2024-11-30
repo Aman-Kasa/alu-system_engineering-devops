@@ -3,7 +3,7 @@ package { 'nginx':
   ensure => 'installed',
 }
 
-# Execute the command to optimize nginx config
+# Optimize nginx configuration
 exec { 'optimize_nginx':
   command => "/bin/bash -c 'cat > /etc/nginx/nginx.conf <<EOF
 user www-data;
@@ -11,7 +11,7 @@ worker_processes auto;
 pid /run/nginx.pid;
 
 events {
-  worker_connections 4096;
+  worker_connections 1024; # Adjusted for 1000 connections across workers
 }
 
 http {
@@ -36,7 +36,7 @@ http {
   include /etc/nginx/sites-enabled/*;
 }
 EOF'",
-  onlyif  => '/bin/grep -q "worker_connections 4096;" /etc/nginx/nginx.conf',
+  onlyif  => '/bin/grep -q "worker_connections 1024;" /etc/nginx/nginx.conf',
   require => Package['nginx'],  # Ensure nginx is installed before this resource runs
 }
 
