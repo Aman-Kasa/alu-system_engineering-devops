@@ -1,3 +1,9 @@
+# Ensure nginx is installed
+package { 'nginx':
+  ensure => 'installed',
+}
+
+# Execute the command to optimize nginx config
 exec { 'optimize_nginx':
   command => "/bin/bash -c 'cat > /etc/nginx/nginx.conf <<EOF
 user www-data;
@@ -29,13 +35,14 @@ http {
     include /etc/nginx/conf.d/*.conf;
     include /etc/nginx/sites-enabled/*;
 }
-EOF'",
+EOF' ",
   onlyif  => '/bin/grep -q "worker_connections 4096;" /etc/nginx/nginx.conf',
-  require => Package['nginx'],
+  require => Package['nginx'],  # Ensure nginx is installed before this resource runs
 }
 
+# Ensure nginx service is running
 service { 'nginx':
-  ensure => 'running',
-  enable => true,
-  subscribe => Exec['optimize_nginx'],
+  ensure   => 'running',
+  enable   => true,
+  subscribe => Exec['optimize_nginx'],  # Restart nginx if exec changes its config
 }
