@@ -1,6 +1,0 @@
-#!/usr/bin/env bash
-# Ensures Nginx is running and accessible on port 80
-
-if ! pgrep -x "nginx" > /dev/null; then
-    sudo service nginx start
-fi
