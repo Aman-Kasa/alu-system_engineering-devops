@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-# Start nginx without using init or service and in the background
-nginx -g "daemon off;" &
