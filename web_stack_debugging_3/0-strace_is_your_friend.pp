@@ -2,10 +2,10 @@
 
 # Ensure wp-config.php has correct permissions
 file { '/var/www/html/wp-config.php':
-  ensure  => file,
-  mode    => '0644',
-  owner   => 'www-data',
-  group   => 'www-data',
+  ensure => file,
+  mode   => '0644',
+  owner  => 'www-data',
+  group  => 'www-data',
 }
 
 # Fix WordPress directory permissions
