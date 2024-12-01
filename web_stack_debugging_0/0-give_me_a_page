@@ -1,6 +1,4 @@
 #!/usr/bin/env bash
-# Fixes the Apache server in the container
-
-apt update && apt install -y apache2
-echo "Hello Holberton" > /var/www/html/index.html
+# Start Apache so as to return a
+# page conatining Hello Holberton
 service apache2 start
